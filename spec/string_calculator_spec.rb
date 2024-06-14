@@ -21,6 +21,10 @@ describe StringCalculator do
       it "returns sum of numbers in comma and new line delimiter string" do
         expect(StringCalculator.add("3\n4,5")).to eql(12)
       end
+
+      it "return sum of numbers by using the custom delimiter provided in the string" do
+        expect(StringCalculator.add("//;\n1;2")).to eql(3)
+      end
     end
   end
 end
