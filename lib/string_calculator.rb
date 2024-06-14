@@ -9,7 +9,8 @@ module StringCalculator
   private
   def self.get_delimiter(numbers)
     if numbers.start_with?("//")
-      numbers.split("\n").first[2..-1]
+      custom_delimiter = numbers.split("\n").first[2..-1]
+      /[\n,#{custom_delimiter}]/
     else
       /[\n,]/
     end

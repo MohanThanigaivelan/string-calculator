@@ -25,6 +25,10 @@ describe StringCalculator do
       it "return sum of numbers by using the custom delimiter provided in the string" do
         expect(StringCalculator.add("//;\n1;2")).to eql(3)
       end
+
+      it "return sum of numbers by splitting using default delimiter and also custom delimiter provided in the string" do
+        expect(StringCalculator.add("//;\n1;2,3\n4")).to eql(10)
+      end
     end
   end
 end
