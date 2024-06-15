@@ -38,5 +38,15 @@ describe StringCalculator do
         expect(StringCalculator.add("//;\n1;2,3\n4")).to eql(10)
       end
     end
+
+    context "negative numbers in the string" do
+      it "should throw exception" do
+        expect{ StringCalculator.add("2,-1000") }.to raise_error(RuntimeError, "negatives not allowed. Numbers: [-1000]")
+      end
+
+      it "shoudn't throw exception when negative sign is the custom delimiter" do
+        expect(StringCalculator.add("//-\n1-2-3-4")).to eql(10)
+      end
+    end
   end
 end

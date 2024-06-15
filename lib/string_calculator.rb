@@ -3,7 +3,13 @@ module StringCalculator
     return 0 if input_string.empty?
 
     delimiters, numbers = get_delimiter(input_string)
-    numbers.split(delimiters).map(&:to_i).sum
+    numbers_array = numbers.split(delimiters).map(&:to_i)
+    negative_numbers = numbers_array.select{ |num| num < 0 }
+
+    unless negative_numbers.empty?
+      raise "negatives not allowed. Numbers: #{negative_numbers}"
+    end
+    numbers_array.sum
   end
 
   private
