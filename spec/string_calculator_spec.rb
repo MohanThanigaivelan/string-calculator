@@ -48,5 +48,9 @@ describe StringCalculator do
         expect(StringCalculator.add("//-\n1-2-3-4")).to eql(10)
       end
     end
+
+    it "shouldn't sum numbers greater than 1000 in the string" do
+      expect(StringCalculator.add("2,1002,1934,21455")).to eq(2)
+    end
   end
 end

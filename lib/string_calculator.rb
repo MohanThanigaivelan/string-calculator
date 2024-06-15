@@ -9,7 +9,7 @@ module StringCalculator
     unless negative_numbers.empty?
       raise "negatives not allowed. Numbers: #{negative_numbers}"
     end
-    numbers_array.sum
+    numbers_array.inject(0) { |sum, number|  number < 1000  ? sum + number :  sum }
   end
 
   private
