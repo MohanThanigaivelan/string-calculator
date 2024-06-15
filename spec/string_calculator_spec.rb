@@ -4,16 +4,20 @@ require 'string_calculator'
 describe StringCalculator do
   describe "add" do
     context "without delimiter" do
-      it "return 0 if input is an empty string" do
-        expect(StringCalculator.add("")).to eql(0)
+      context "when input is empty" do
+        it "returns 0" do
+          expect(StringCalculator.add("")).to eql(0)
+        end
       end
 
-      it "return input string as number when it is not empty" do
-        expect(StringCalculator.add("1")).to eql(1)
+      context "when input is a single number" do
+        it "returns the number itself" do
+          expect(StringCalculator.add("1")).to eql(1)
+        end
       end
     end
 
-    context "with default delimiter" do
+    context "when using default delimiter" do
       it "returns sum of numbers in a comma-separated string" do
         expect(StringCalculator.add("1,2")).to eql(3)
       end
@@ -23,25 +27,36 @@ describe StringCalculator do
       end
     end
 
-    context "with custom delimiter" do
-      it "return sum of numbers by using the custom delimiter provided in the string" do
-        expect(StringCalculator.add("//;\n1;2")).to eql(3)
+    context "when using custom delimiter" do
+      context "with single delimiter of size 1" do
+        it "return sum of numbers by using the custom delimiter provided in the string" do
+          expect(StringCalculator.add("//;\n1;2")).to eql(3)
+        end
+
+        it "return sum of numbers by safely escaping regex special character delimiters" do
+          expect(StringCalculator.add("//[\n1[2[3[4")).to eql(10)
+        end
       end
 
-      it "return sum of numbers by safely escaping regex special character delimiters" do
-        expect(StringCalculator.add("//[\n1[2[3[4")).to eql(10)
+      context "with single  delimiter of size greater than 1" do
+        it "return sum of number separated by a custom multiple-length delimiter" do
+          expect(StringCalculator.add("//[***]\n1***2***3")).to eq(6)
+        end
       end
 
-      it "return sum of number separated by a custom multiple-length delimiter" do
-        expect(StringCalculator.add("//[***]\n1***2***3")).to eq(6)
+      context "with multiple delimiters" do
+        it "return sum of numbers separated by a multiple custom delimiters of size 1" do
+          expect(StringCalculator.add("//[*][%]\n10*20%30")).to eq(60)
+        end
+
+        it "return sum of numbers separated by multiple custom delimiter of varying length" do
+          expect(StringCalculator.add("//[*+<][&%]\n10*+<20&%30&%50*+<20")).to eq(130)
+        end
       end
 
-      it "return sum of numbers separated by a multiple custom delimiters" do
-        expect(StringCalculator.add("//[*][%]\n10*20%30")).to eq(60)
-      end
     end
 
-    context "with both default and custom delimiter" do
+    context "when using both default and custom delimiter" do
       it "return sum of numbers by splitting using default delimiter and also custom delimiter provided in the string" do
         expect(StringCalculator.add("//;\n1;2,3\n4")).to eql(10)
       end
