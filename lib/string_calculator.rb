@@ -16,10 +16,19 @@ module StringCalculator
   def self.get_delimiter(input_string)
     if input_string.start_with?("//")
       custom_delimiter, numbers = input_string[2..-1].split("\n", 2)
+      delimiter = ""
       if custom_delimiter.start_with?('[') && custom_delimiter.end_with?(']')
-        custom_delimiter = custom_delimiter[1..-2]
+        custom_delimiter.scan(/\[(.*?)\]/).each_with_index do |match, index|
+          if index == 0
+            delimiter = Regexp.escape(match[0])
+          else
+            delimiter = delimiter + "|#{Regexp.escape(match[0])}"
+          end
+        end
+      else
+        delimiter = Regexp.escape(custom_delimiter)
       end
-      [/[\n,]|#{Regexp.escape(custom_delimiter)}/ , numbers]
+      [/[\n,]|#{delimiter}/ , numbers]
     else
       [ /[\n,]/ , input_string]
     end

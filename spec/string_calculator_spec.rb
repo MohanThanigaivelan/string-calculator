@@ -35,6 +35,10 @@ describe StringCalculator do
       it "return sum of number separated by a custom multiple-length delimiter" do
         expect(StringCalculator.add("//[***]\n1***2***3")).to eq(6)
       end
+
+      it "return sum of numbers separated by a multiple custom delimiters" do
+        expect(StringCalculator.add("//[*][%]\n10*20%30")).to eq(60)
+      end
     end
 
     context "with both default and custom delimiter" do
