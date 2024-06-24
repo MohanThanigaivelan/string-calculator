@@ -33,6 +33,10 @@ describe StringCalculator do
           expect(StringCalculator.add("//;\n1;2")).to eql(3)
         end
 
+        it "return multipy the number when custom delimiter is * operator" do
+          expect(StringCalculator.add("//*\n4*6")).to eql(24)
+        end
+
         it "return sum of numbers by safely escaping regex special character delimiters" do
           expect(StringCalculator.add("//[\n1[2[3[4")).to eql(10)
         end
